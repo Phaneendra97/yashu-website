@@ -1,0 +1,11 @@
+.App {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .App {
+    padding: 10px;
+  }
+}
