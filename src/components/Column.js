@@ -3,22 +3,23 @@ import { Droppable } from 'react-beautiful-dnd';
 import { Card } from './Card';
 import './Column.css';
 
-export const Column = ({ column, onViewDetails }) => {
+export const Column = ({ column, cards, onViewDetails }) => {
   return (
-    <div className="column">
-      <div className="column-header" style={{ borderTopColor: column.color }}>
-        <h3 className="column-title">{column.title}</h3>
-        <span className="card-count" style={{ backgroundColor: column.color }}>{column.cards.length}</span>
+    <div className="column-container">
+      <div className="column-header">
+        <span className="column-header-text">
+          {column.title}
+          <span className="column-count">{cards.length}</span>
+        </span>
       </div>
-      
-      <Droppable droppableId={column.id}>
+      <Droppable droppableId={column.id} type="card">
         {(provided, snapshot) => (
           <div
+            className={`card-list ${snapshot.isDraggingOver ? 'is-dragging-over' : ''}`}
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`column-content ${snapshot.isDraggingOver ? 'dragging-over' : ''}`}
           >
-            {column.cards.map((card, index) => (
+            {cards.map((card, index) => (
               <Card
                 key={card.id}
                 card={card}

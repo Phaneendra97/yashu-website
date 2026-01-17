@@ -1,268 +1,105 @@
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+.card-container {
+  background-color: #FFFFFF;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.25);
   cursor: grab;
-  position: relative;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.card.dragging {
-  transform: rotate(5deg);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
-
-.card:active {
-  cursor: grabbing;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  position: relative;
-}
-
-.card-icon {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 8px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2d3748;
-  margin: 0;
-  line-height: 1.3;
-  flex: 1;
-}
-
-.priority-high {
-  color: #f56565;
-}
-
-.priority-medium {
-  color: #ed8936;
-}
-
-.priority-low {
-  color: #48bb78;
-}
-
-.card-content {
-  margin-bottom: 12px;
-}
-
-.card-description {
-  color: #4a5568;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 0 0 12px 0;
-}
-
-.card-contact {
+  transition: background-color 0.1s;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 12px;
+  border-left: 0;
+  /* Remove old colored borders if any */
 }
 
-.contact-email,
-.contact-linkedin {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #667eea;
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
+.card-container:hover {
+  background-color: #EBECF0;
 }
 
-.contact-email:hover,
-.contact-linkedin:hover {
-  color: #764ba2;
+.card-container.is-dragging {
+  background-color: #FFFFFF;
+  box-shadow: 0 5px 10px rgba(9, 30, 66, 0.25);
+  transform: rotate(2deg);
 }
 
-.card-details {
-  margin: 12px 0 0 0;
-  padding-left: 16px;
+.card-title {
+  font-size: 14px;
+  color: #172B4D;
+  margin-bottom: 4px;
+  line-height: 20px;
+  font-weight: normal;
 }
 
-.detail-item {
-  color: #4a5568;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  margin-bottom: 6px;
-}
-
-.detail-item:last-child {
-  margin-bottom: 0;
+.card-title:hover {
+  color: #0052CC;
+  text-decoration: underline;
 }
 
 .card-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  justify-content: space-between;
+  margin-top: 4px;
 }
 
-.card-type {
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Date chips for education cards */
-.date-chips {
+.card-type-icon {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  align-items: center;
+  gap: 4px;
 }
 
-.date-chip {
-  background: linear-gradient(135deg, #48bb78 0%, #68d391 100%);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 500;
-  white-space: nowrap;
+.issue-key {
+  font-size: 11px;
+  color: #5E6C84;
 }
 
-.view-details-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
+.jira-icon {
+  width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
 }
 
-.view-details-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+.icon-story {
+  background-color: #36B37E;
+  /* Green for story */
 }
 
-.view-details-btn:active {
-  transform: translateY(0);
+.icon-task {
+  background-color: #4C9AFF;
+  /* Blue for task */
 }
 
-/* Status indicators */
-.status-indicator {
+.icon-bug {
+  background-color: #FF5630;
+  /* Red for bug */
+}
+
+.priority-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.assignee-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #0052CC;
+  color: white;
+  font-size: 10px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, #ed8936 0%, #f6ad55 100%);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  margin-left: auto;
+  justify-content: center;
 }
 
-.status-indicator.completed {
-  background: linear-gradient(135deg, #48bb78 0%, #68d391 100%);
-}
-
-.spinning {
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Card type specific styles */
-.card.profile {
-  border-left: 4px solid #667eea;
-}
-
-.card.experience {
-  border-left: 4px solid #ed8936;
-}
-
-.card.certification {
-  border-left: 4px solid #9f7aea;
-}
-
-.card.project {
-  border-left: 4px solid #9f7aea;
-}
-
-.card.education {
-  border-left: 4px solid #48bb78;
-}
-
-.card.skills {
-  border-left: 4px solid #667eea;
-}
-
-/* In-progress status styling */
-.card.status-in-progress {
-  border: 2px solid #ed8936;
-  box-shadow: 0 0 0 3px rgba(237, 137, 54, 0.1);
-  background: linear-gradient(135deg, rgba(237, 137, 54, 0.05) 0%, rgba(246, 173, 85, 0.05) 100%);
-}
-
-.card.status-in-progress:hover {
-  box-shadow: 0 8px 25px rgba(237, 137, 54, 0.2);
-}
-
-/* Completed status styling */
-.card.status-completed {
-  border: 2px solid #48bb78;
-  box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
-  background: linear-gradient(135deg, rgba(72, 187, 120, 0.05) 0%, rgba(104, 211, 145, 0.05) 100%);
-}
-
-.card.status-completed:hover {
-  box-shadow: 0 8px 25px rgba(72, 187, 120, 0.2);
-}
-
-@media (max-width: 768px) {
-  .card {
-    padding: 14px;
-  }
-  
-  .card-title {
-    font-size: 0.95rem;
-  }
-  
-  .card-description {
-    font-size: 0.85rem;
-  }
-  
-  .detail-item {
-    font-size: 0.8rem;
-  }
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

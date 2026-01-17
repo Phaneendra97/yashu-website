@@ -1,28 +1,30 @@
 import React from 'react';
-import { Mail, Linkedin, Github } from 'lucide-react';
 import './Header.css';
+import { Search, User, Bell, HelpCircle } from 'lucide-react';
 
 export const Header = () => {
   return (
-    <header className="header">
-      <div className="header-content">
-        <div className="header-title">
-          <h1>Yashaswini Mohan</h1>
-          <p className="header-subtitle">Project Manager & Software Engineer</p>
-        </div>
-        <div className="header-contact">
-          <a href="mailto:yashaswini.phani@gmail.com" className="contact-link">
-            <Mail size={20} />
-            <span>Email</span>
-          </a>
-          <a href="https://linkedin.com/in/yashaswinimohan" target="_blank" rel="noopener noreferrer" className="contact-link">
-            <Linkedin size={20} />
-            <span>LinkedIn</span>
-          </a>
-        </div>
+    <header className="jira-header">
+      <div className="header-left">
+        <nav className="breadcrumbs">
+          <span className="breadcrumb-item">Projects</span>
+          <span className="breadcrumb-separator">/</span>
+          <span className="breadcrumb-item">Yashaswini Mohan</span>
+          <span className="breadcrumb-separator">/</span>
+          <span className="breadcrumb-item active">Kanban Board</span>
+        </nav>
+        <h1 className="board-title">KAN Kanban board</h1>
       </div>
-      <div className="header-description">
-        <p>Welcome to my interactive portfolio! This Kanban board showcases my professional background organized by key areas. Drag and drop cards to explore my skills, education, experience, and certifications. This presentation demonstrates my project management expertise and attention to detail.</p>
+
+      <div className="header-right">
+        <div className="header-search">
+          <Search size={16} />
+          <input type="text" placeholder="Search this board" />
+        </div>
+        <div className="header-avatars">
+          <span className="avatar-circle">YM</span>
+          <span className="add-user-btn">+</span>
+        </div>
       </div>
     </header>
   );

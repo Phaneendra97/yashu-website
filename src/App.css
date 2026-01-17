@@ -1,11 +1,25 @@
 .App {
+  display: flex;
   min-height: 100vh;
-  padding: 20px;
+  background-color: var(--ds-background-default);
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 240px;
+  /* Sidebar width */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .App {
-    padding: 10px;
+    flex-direction: column;
+  }
+
+  .main-content {
+    margin-left: 0;
   }
 }
