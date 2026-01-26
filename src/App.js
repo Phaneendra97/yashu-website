@@ -1,185 +1,170 @@
-import React, { useState } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
-import { KanbanBoard } from './components/KanbanBoard';
+import React from 'react';
+import { GanttView } from './components/GanttView';
 import { Header } from './components/Header';
-import { Sidebar } from './components/Sidebar';
-import { Modal } from './components/Modal';
+import { Summary } from './components/Summary';
+import { KanbanBoard } from './components/KanbanBoard';
 import './App.css';
 
 function App() {
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const currentDate = new Date();
 
-  // Jira-style Project Data
-  const [columns, setColumns] = useState({
-    'todo': {
-      id: 'todo',
-      title: 'TO DO',
-      cards: [
-        {
-          id: 'edu-1',
-          key: 'EDU-1',
-          title: 'Complete Master\'s in Engineering Management',
-          type: 'story',
-          priority: 'high',
-          content: 'San Jose State University',
-          assignee: 'YM'
-        },
-        {
-          id: 'cert-1',
-          key: 'CERT-1',
-          title: 'Google Project Management Certification',
-          type: 'task',
-          priority: 'medium',
-          content: 'In Progress - 2025',
-          assignee: 'YM'
-        }
-      ]
+  const tasks = [
+    // Project: Experience
+    {
+      start: new Date(2025, 8, 1), // Sept 2025
+      end: currentDate, // Present
+      name: 'Associate Product Manager - AI Academy, San Jose State University',
+      id: 'exp-new',
+      type: 'task',
+      progress: 100,
+      isDisabled: true,
+      styles: { progressColor: '#6554C0', progressSelectedColor: '#6554C0' }, // Purple
+      project: 'Experience',
+      details: 'Leading the design and development of the AI Academy MVP, coordinating cross-functional teams via Agile Scrum to build course management features. Partnering with faculty stakeholders to align product goals with academic objectives and prepare for a pilot launch.'
     },
-    'in-progress': {
-      id: 'in-progress',
-      title: 'IN PROGRESS',
-      cards: [
-        {
-          id: 'exp-1',
-          key: 'EXP-1',
-          title: 'Software Engineer at Wabtec Inc',
-          type: 'bug', // Using bug icon for variety or maybe story
-          priority: 'highest',
-          content: 'Driving API development and testing strategies.',
-          assignee: 'YM'
-        },
-        {
-          id: 'skill-1',
-          key: 'SKILL-1',
-          title: 'Agile Facilitation & Coaching',
-          type: 'story',
-          priority: 'high',
-          content: 'Leading scrum ceremonies and backlog refinement.',
-          assignee: 'YM'
-        }
-      ]
+    {
+      start: new Date(2022, 6, 1),
+      end: new Date(2024, 11, 31),
+      name: 'Software Engineer - Wabtec Inc',
+      id: 'exp-1',
+      type: 'task',
+      progress: 100,
+      isDisabled: true,
+      styles: { progressColor: '#6554C0', progressSelectedColor: '#6554C0' }, // Purple
+      project: 'Experience',
+      details: 'Guided interns, directed testing strategies, led API/UI development with Django & React.'
     },
-    'done': {
-      id: 'done',
-      title: 'DONE',
-      cards: [
-        {
-          id: 'edu-2',
-          key: 'EDU-2',
-          title: 'Master\'s in Computer Science',
-          type: 'story',
-          priority: 'low',
-          content: 'RV Institute of Technology - Completed',
-          assignee: 'YM'
-        },
-        {
-          id: 'exp-2',
-          key: 'EXP-2',
-          title: 'Software Engineering Intern',
-          type: 'task',
-          priority: 'medium',
-          content: 'Wabtec Inc - Sep 2021 to Jun 2022',
-          assignee: 'YM'
-        },
-        {
-          id: 'cert-2',
-          key: 'CERT-2',
-          title: 'Certified ScrumMaster (CSM)',
-          type: 'task',
-          priority: 'medium',
-          content: 'Scrum Framework & Agile Leadership',
-          assignee: 'YM'
-        }
-      ]
+    {
+      start: new Date(2021, 8, 1),
+      end: new Date(2022, 5, 30),
+      name: 'Software Engineering Intern - Wabtec Inc',
+      id: 'exp-2',
+      type: 'task',
+      progress: 100,
+      isDisabled: true,
+      styles: { progressColor: '#6554C0', progressSelectedColor: '#6554C0' }, // Purple
+      project: 'Experience',
+      details: 'Designed Power BI dashboards, analyzed performance metrics.'
+    },
+    // Project: Education
+    {
+      start: new Date(2025, 0, 1), // Jan 2025
+      end: new Date(2026, 6, 31), // July 2026
+      name: 'Master\'s in Engineering Management',
+      id: 'edu-1',
+      type: 'task',
+      progress: 100,
+      isDisabled: true,
+      styles: { progressColor: '#36B37E', progressSelectedColor: '#36B37E' }, // Green
+      project: 'Education',
+      details: 'San Jose State University'
+    },
+    {
+      start: new Date(2019, 7, 1),
+      end: new Date(2021, 5, 1),
+      name: 'Master\'s in Computer Science',
+      id: 'edu-2',
+      type: 'task',
+      progress: 100,
+      isDisabled: true,
+      styles: { progressColor: '#36B37E', progressSelectedColor: '#36B37E' }, // Green
+      project: 'Education',
+      details: 'RV Institute of Technology'
+    },
+    {
+      start: new Date(2015, 7, 1),
+      end: new Date(2019, 5, 1),
+      name: 'Bachelor\'s in Computer Science',
+      id: 'edu-3',
+      type: 'task',
+      progress: 100,
+      isDisabled: true,
+      styles: { progressColor: '#36B37E', progressSelectedColor: '#36B37E' }, // Green
+      project: 'Education',
+      details: 'Visvesvaraya Technological University'
     }
-  });
-
-  const onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
-
-    if (!destination) {
-      return;
-    }
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const start = columns[source.droppableId];
-    const finish = columns[destination.droppableId];
-
-    if (start === finish) {
-      const newCardIds = Array.from(start.cards);
-      const [movedCard] = newCardIds.splice(source.index, 1);
-      newCardIds.splice(destination.index, 0, movedCard);
-
-      const newColumn = {
-        ...start,
-        cards: newCardIds,
-      };
-
-      const newColumns = {
-        ...columns,
-        [newColumn.id]: newColumn,
-      };
-
-      setColumns(newColumns);
-      return;
-    }
-
-    // Moving from one list to another
-    const startCardIds = Array.from(start.cards);
-    const [movedCard] = startCardIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      cards: startCardIds,
-    };
-
-    const finishCardIds = Array.from(finish.cards);
-    finishCardIds.splice(destination.index, 0, movedCard);
-    const newFinish = {
-      ...finish,
-      cards: finishCardIds,
-    };
-
-    const newColumns = {
-      ...columns,
-      [newStart.id]: newStart,
-      [newFinish.id]: newFinish,
-    };
-
-    setColumns(newColumns);
-  };
-
-  const handleViewDetails = (card) => {
-    setSelectedCard(card);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedCard(null);
-  };
+  ];
 
   return (
     <div className="App">
-      <Sidebar />
       <div className="main-content">
         <Header />
-        <DragDropContext onDragEnd={onDragEnd}>
-          <KanbanBoard columns={columns} onViewDetails={handleViewDetails} />
-        </DragDropContext>
-      </div>
+        <Summary />
+        <div className="view-container">
+          <GanttView tasks={tasks} />
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        card={selectedCard}
-      />
+          <div style={{ marginTop: '40px', padding: '0 24px' }}>
+            <h2 style={{ color: '#172B4D', fontSize: '20px', marginBottom: '20px' }}>Details Board</h2>
+            <KanbanBoard
+              columns={{
+                skills: {
+                  id: 'skills',
+                  title: 'Skills',
+                  cards: [
+                    {
+                      id: 's1',
+                      title: 'Product Management',
+                      details: 'Agile Development (Scrum, Kanban), Requirements Prioritization, Roadmapping & Release Planning, Go-to-Market (GTM) Strategy, KPI & Metrics Definition, Market & User Research, Product Lifecycle Management',
+                      type: 'task', priority: 'high', assignee: 'YP', key: 'SK-1'
+                    },
+                    {
+                      id: 's2',
+                      title: 'Analytical & Technical',
+                      details: 'Data-Driven Decision-Making, Forecasting, Dashboarding (Power BI, Excel), Process Optimization, AI & LLM Integration',
+                      type: 'task', priority: 'high', assignee: 'YP', key: 'SK-2'
+                    },
+                    {
+                      id: 's3',
+                      title: 'Leadership & Collaboration',
+                      details: 'Cross-Functional Coordination, Stakeholder Communication, Strategic Planning, Team Leadership, Adaptability',
+                      type: 'task', priority: 'high', assignee: 'YP', key: 'SK-3'
+                    },
+                    {
+                      id: 's4',
+                      title: 'Tools',
+                      details: 'JIRA, Notion, Trello, Monday.com, Power BI, MS Project, Excel',
+                      type: 'task', priority: 'medium', assignee: 'YP', key: 'SK-4'
+                    }
+                  ]
+                },
+                education: {
+                  id: 'education',
+                  title: 'Education',
+                  cards: tasks.filter(t => t.project === 'Education').map(t => ({
+                    id: t.id,
+                    title: t.name,
+                    subtitle: t.details, // University Name
+                    time: `${t.start.toLocaleString('default', { month: 'short', year: 'numeric' })} - ${t.end > new Date() ? 'Present' : t.end.toLocaleString('default', { month: 'short', year: 'numeric' })}`,
+                    type: 'story',
+                    priority: 'high',
+                    assignee: 'YP',
+                    key: t.id.toUpperCase()
+                  }))
+                },
+                experience: {
+                  id: 'experience',
+                  title: 'Work Experience',
+                  cards: tasks.filter(t => t.project === 'Experience').map(t => {
+                    const [role, company] = t.name.split(' - ');
+                    return {
+                      id: t.id,
+                      title: role,
+                      subtitle: company,
+                      details: t.details,
+                      time: `${t.start.toLocaleString('default', { month: 'short', year: 'numeric' })} - ${t.end > new Date() ? 'Present' : t.end.toLocaleString('default', { month: 'short', year: 'numeric' })}`,
+                      type: 'bug',
+                      priority: 'highest',
+                      assignee: 'YP',
+                      key: t.id.toUpperCase()
+                    };
+                  })
+                }
+              }}
+              onViewDetails={(card) => console.log('View details', card)}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

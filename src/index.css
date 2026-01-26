@@ -18,7 +18,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--ds-background-default);
   color: var(--ds-text);
-  overflow: hidden; /* App handles scrolling */
+  /* overflow: hidden; removed to allow page scroll */
 }
 
 code {

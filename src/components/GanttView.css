@@ -1,0 +1,73 @@
+.gantt-container {
+    padding: 24px;
+    background-color: #FFFFFF;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(9, 30, 66, 0.25);
+    margin: 0 32px 32px 32px;
+    overflow: hidden;
+    /* Gantt lib handles scrolling */
+}
+
+.gantt-controls {
+    margin-bottom: 24px;
+    display: flex;
+    gap: 8px;
+}
+
+.gantt-controls button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #EBECF0;
+    color: #42526E;
+    border-radius: 3px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.gantt-controls button:hover {
+    background-color: #DFE1E6;
+}
+
+.gantt-controls button.active {
+    background-color: #0052CC;
+    color: #FFFFFF;
+}
+
+.gantt-chart-wrapper {
+    overflow-x: auto;
+}
+
+/* Custom Tooltip Styling */
+.gantt-tooltip {
+    background-color: #172B4D;
+    color: #FFFFFF;
+    padding: 12px;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(9, 30, 66, 0.25);
+    max-width: 300px;
+}
+
+.tooltip-header {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.tooltip-dates {
+    font-size: 11px;
+    color: #B3BAC5;
+    margin-bottom: 8px;
+}
+
+.tooltip-details {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Hide text labels inside the chart */
+svg text._3KcaM,
+svg text._3zRJQ {
+    display: none !important;
+    opacity: 0 !important;
+}
