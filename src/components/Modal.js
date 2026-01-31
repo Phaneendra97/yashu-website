@@ -47,12 +47,12 @@ export const Modal = ({ isOpen, onClose, card }) => {
           ],
           skills: ['Leadership', 'Strategic Planning', 'Team Management', 'Risk Assessment', 'Agile Methodologies']
         };
-      
+
       case 'masters-cs':
         return {
           title: 'Master\'s in Computer Science',
           institution: 'RV Institute of Technology',
-          duration: 'Jan 2022 - Jun 2023',
+          duration: 'Jan 2021 - Jul 2022',
           status: 'Completed',
           courses: [
             'Advanced Algorithms & Data Structures',
@@ -73,7 +73,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
           ],
           skills: ['Software Engineering', 'System Design', 'Algorithms', 'Database Management', 'Research']
         };
-      
+
       case 'bachelors-cs':
         return {
           title: 'Bachelor\'s in Computer Science',
@@ -99,7 +99,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
           ],
           skills: ['Programming', 'Problem Solving', 'System Analysis', 'Web Development', 'Database Design']
         };
-      
+
       case 'wabtec-se':
         return {
           title: 'Software Engineer - Wabtec Inc',
@@ -125,7 +125,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
             'Mentorship Excellence Award'
           ]
         };
-      
+
       case 'wabtec-intern':
         return {
           title: 'Software Engineering Intern - Wabtec Inc',
@@ -151,7 +151,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
             'Management Appreciation for Dashboard Project'
           ]
         };
-      
+
       case 'google-pm':
         return {
           title: 'Google Project Management Certification',
@@ -175,7 +175,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
           ],
           skills: ['Project Planning', 'Risk Management', 'Stakeholder Communication', 'Agile Methodologies', 'Quality Management']
         };
-      
+
       case 'six-sigma':
         return {
           title: 'Six Sigma Green Belt',
@@ -198,7 +198,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
           ],
           skills: ['Process Improvement', 'Statistical Analysis', 'Quality Management', 'Root Cause Analysis', 'Change Management']
         };
-      
+
       case 'pmi-acp':
         return {
           title: 'PMI Agile Certified Practitioner (PMI-ACP)',
@@ -222,7 +222,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
           ],
           skills: ['Agile Methodologies', 'Scrum', 'Kanban', 'Team Facilitation', 'Continuous Improvement']
         };
-      
+
       case 'csm':
         return {
           title: 'Certified ScrumMaster (CSM)',
@@ -246,7 +246,7 @@ export const Modal = ({ isOpen, onClose, card }) => {
           ],
           skills: ['Scrum Framework', 'Team Facilitation', 'Servant Leadership', 'Coaching', 'Impediment Removal']
         };
-      
+
       default:
         return {
           title: card.title,
