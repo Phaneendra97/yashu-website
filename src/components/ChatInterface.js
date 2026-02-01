@@ -6,65 +6,27 @@ import { fetchChatResponse } from '../services/chatService';
 import { tasks, skillsColumns } from '../data/portfolioData';
 import './ChatInterface.css';
 
+import ReactMarkdown from 'react-markdown';
+
 const MessageBubble = ({ message }) => {
     const isBot = message.type === 'bot';
-
-    const formatMessage = (text) => {
-        if (!text) return null;
-
-        // Helper to linkify text
-        const linkify = (inputText) => {
-            // URL regex (http/https/www)
-            const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
-            // Email regex
-            const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/g;
-            // Phone regex (simple US format matching the specific one used)
-            const phoneRegex = /(\+1\s\d{3}-\d{3}-\d{4})/g;
-
-            // Split by URL, Email, or Phone
-            const parts = inputText.split(/((?:https?:\/\/[^\s]+|www\.[^\s]+)|(?:[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)|(?:\+1\s\d{3}-\d{3}-\d{4}))/g);
-
-            return parts.map((part, i) => {
-                if (part.match(urlRegex)) {
-                    const href = part.startsWith('www.') ? `http://${part}` : part;
-                    return <a key={i} href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#2563EB', textDecoration: 'underline' }}>{part}</a>;
-                }
-                if (part.match(emailRegex)) {
-                    return <a key={i} href={`mailto:${part}`} style={{ color: '#2563EB', textDecoration: 'underline' }}>{part}</a>;
-                }
-                if (part.match(phoneRegex)) {
-                    return <a key={i} href={`tel:${part.replace(/\s/g, '')}`} style={{ color: '#2563EB', textDecoration: 'underline' }}>{part}</a>;
-                }
-                return part;
-            });
-        };
-
-        // Split by newlines first to handle line breaks
-        return text.split('\n').map((line, lineIdx) => {
-            // Include a break for subsequent lines
-            const lineContent = line.split(/(\*\*.*?\*\*)/g).map((part, partIdx) => {
-                if (part.startsWith('**') && part.endsWith('**')) {
-                    return <strong key={partIdx}>{part.slice(2, -2)}</strong>;
-                }
-                // Linkify non-bold parts
-                return <span key={partIdx}>{linkify(part)}</span>;
-            });
-
-            return (
-                <span key={lineIdx}>
-                    {lineContent}
-                    {lineIdx < text.split('\n').length - 1 && <br />}
-                </span>
-            );
-        });
-    };
 
     return (
         <div className={`message-bubble ${message.type}`}>
             {isBot && message.content ? (
                 <div style={{ display: 'flex', alignItems: 'flex-start' }}>
                     <div className="bot-avatar">AI</div>
-                    <div>{formatMessage(message.content)}</div>
+                    <div className="markdown-content">
+                        <ReactMarkdown
+                            components={{
+                                a: ({ node, ...props }) => (
+                                    <a {...props} target="_blank" rel="noopener noreferrer" style={{ color: '#2563EB', textDecoration: 'underline' }} />
+                                )
+                            }}
+                        >
+                            {message.content}
+                        </ReactMarkdown>
+                    </div>
                 </div>
             ) : (
                 message.content
