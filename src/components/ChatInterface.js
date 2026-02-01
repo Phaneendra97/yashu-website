@@ -132,40 +132,8 @@ export const ChatInterface = () => {
     }, [history, isLoading]);
 
     const handleChipClick = (chip) => {
-        const { id, label } = chip;
-
-        // Add user message
-        setHistory(prev => [...prev, { type: 'user', content: label }]);
-        setIsLoading(true);
-
-        // Simulate "thinking" delay but purely local
-        setTimeout(() => {
-            let widgetType = id;
-            let content = "";
-
-            // Map 'projects' to 'experience' if no specific projects widget exists yet
-            // or keep is as 'projects' if we want to handle it in WidgetRenderer
-            if (id === 'projects') {
-                widgetType = 'experience'; // Reusing experience for now as it contains projects
-                content = "Here are my key projects and professional experience.";
-            } else {
-                const introTexts = {
-                    skills: "Here's an overview of Yashu's technical and product skills.",
-                    experience: "Here is Yashu's professional experience timeline.",
-                    education: "Here are the details of Yashu's educational background."
-                };
-                content = introTexts[id] || `Here is information about ${label}.`;
-            }
-
-            const botMsg = {
-                type: 'bot',
-                content: content,
-                widget: widgetType
-            };
-
-            setHistory(prev => [...prev, botMsg]);
-            setIsLoading(false);
-        }, 600);
+        // Treat chip click exactly like typing the query to trigger the AI response
+        handleSend(chip.label);
     };
 
     const handleSend = async (text) => {
@@ -191,13 +159,17 @@ export const ChatInterface = () => {
             if (data.type === 'standard') {
                 botMsg.widget = data.response; // 'skills', 'experience', 'education'
 
-                // Add a friendly intro text based on the widget
-                const introTexts = {
-                    skills: "Here's an overview of Yashu's technical and product skills.",
-                    experience: "Here is Yashu's professional experience timeline.",
-                    education: "Here are the details of Yashu's educational background."
-                };
-                botMsg.content = introTexts[data.response] || "Here is the information you requested.";
+                // Use the AI-provided explanation if available, otherwise fallback to static text
+                if (data.explanation) {
+                    botMsg.content = data.explanation;
+                } else {
+                    const introTexts = {
+                        skills: "Here's an overview of Yashu's technical and product skills.",
+                        experience: "Here is Yashu's professional experience timeline.",
+                        education: "Here are the details of Yashu's educational background."
+                    };
+                    botMsg.content = introTexts[data.response] || "Here is the information you requested.";
+                }
 
             } else if (data.type === 'non_standard') {
                 botMsg.content = data.response;

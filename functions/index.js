@@ -48,7 +48,7 @@ exports.chatQuery = functions.runWith({ secrets: ["OPENAI_API_KEY"] }).https.onR
             // For multi-turn, we might want to cache based on the LAST message if context is minimal,
             // OR skip caching for complex multi-turn. For now, we'll keep simple caching for FAQ-like queries.
             // If history is long, caching single queries is less effective.
-            const normalizedKey = message.trim().toLowerCase();
+            const normalizedKey = `v2_${message.trim().toLowerCase()}`;
             // Only cache if history is empty (first turn), otherwise we need fresh context
             /* 
                COMMENTING OUT CACHE FOR CONTEXTUAL CHAT
@@ -114,6 +114,10 @@ exports.chatQuery = functions.runWith({ secrets: ["OPENAI_API_KEY"] }).https.onR
                                             minLength: 1
                                         }
                                     ]
+                                },
+                                explanation: {
+                                    type: "string",
+                                    description: "Mandatory for 'education' and 'experience' responses. Provide a persuasive summary explaining how the section relates to the user's goals (specifically Project Management). Optional for other types."
                                 }
                             },
                             required: ["type", "response"],
